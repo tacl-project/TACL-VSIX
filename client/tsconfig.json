@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out/client",
+    "rootDir": "src",
+    "module": "commonjs",
+    "types": ["vscode"],
+    "composite": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", ".vscode-test"]
+}

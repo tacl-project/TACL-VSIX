@@ -1,0 +1,19 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <rect width="128" height="128" rx="16" fill="#1e1e1e"/>
+  
+  <!-- T -->
+  <text x="20" y="65" font-family="Monaco, monospace" font-size="36" font-weight="bold" fill="#569cd6">T</text>
+  
+  <!-- Semicolon -->
+  <text x="50" y="65" font-family="Monaco, monospace" font-size="36" font-weight="bold" fill="#d4d4d4">;</text>
+  
+  <!-- Type annotation symbol -->
+  <text x="70" y="65" font-family="Monaco, monospace" font-size="28" fill="#4ec9b0">int</text>
+  
+  <!-- Reference symbol -->
+  <text x="20" y="95" font-family="Monaco, monospace" font-size="24" fill="#ce9178">&amp;</text>
+  
+  <!-- Brackets -->
+  <text x="45" y="95" font-family="Monaco, monospace" font-size="24" fill="#ffd700">[</text>
+  <text x="95" y="95" font-family="Monaco, monospace" font-size="24" fill="#ffd700">]</text>
+</svg>

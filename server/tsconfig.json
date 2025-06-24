@@ -1,0 +1,11 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out/server",
+    "rootDir": "src",
+    "module": "Node16",
+    "composite": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

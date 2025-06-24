@@ -1,0 +1,518 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "TACL",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#type-definitions"
+    },
+    {
+      "include": "#field-definitions"
+    },
+    {
+      "include": "#yaml-lists"
+    },
+    {
+      "include": "#object-members"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.tacl",
+          "match": "#.*$"
+        }
+      ]
+    },
+    "type-definitions": {
+      "patterns": [
+        {
+          "name": "meta.type-definition.tacl",
+          "begin": "^\\s*(@type)\\s+(\\w+)\\s*(:)",
+          "beginCaptures": {
+            "1": {
+              "name": "support.type.class.tacl"
+            },
+            "2": {
+              "name": "support.type.tacl"
+            },
+            "3": {
+              "name": "punctuation.definition.type.tacl"
+            }
+          },
+          "end": "^(?=\\S)",
+          "patterns": [
+            {
+              "include": "#field-definitions"
+            },
+            {
+              "include": "#comments"
+            }
+          ]
+        }
+      ]
+    },
+    "field-definitions": {
+      "patterns": [
+        {
+          "name": "meta.field.tacl",
+          "match": "^\\s*(\\w+)\\s*(;)\\s*([^:]+)\\s*(:)\\s*(.*)$",
+          "captures": {
+            "1": {
+              "name": "entity.name.variable.tacl"
+            },
+            "2": {
+              "name": "keyword.operator.type-annotation.tacl"
+            },
+            "3": {
+              "patterns": [
+                {
+                  "include": "#type-expressions"
+                }
+              ]
+            },
+            "4": {
+              "name": "keyword.operator.type-annotation.tacl"
+            },
+            "5": {
+              "patterns": [
+                {
+                  "include": "#values"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "meta.field.no-value.tacl",
+          "match": "^\\s*(\\w+)\\s*(;)\\s*(.+)$",
+          "captures": {
+            "1": {
+              "name": "entity.name.variable.tacl"
+            },
+            "2": {
+              "name": "keyword.operator.type-annotation.tacl"
+            },
+            "3": {
+              "patterns": [
+                {
+                  "include": "#type-expressions"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "type-expressions": {
+      "patterns": [
+        {
+          "include": "#primitive-types"
+        },
+        {
+          "include": "#collection-types"
+        },
+        {
+          "include": "#optional-types"
+        },
+        {
+          "include": "#union-types"
+        },
+        {
+          "include": "#literal-types"
+        },
+        {
+          "include": "#custom-types"
+        }
+      ]
+    },
+    "primitive-types": {
+      "patterns": [
+        {
+          "name": "support.type.primitive.tacl",
+          "match": "\\b(string|int|bool|float|null|object)\\b"
+        }
+      ]
+    },
+    "collection-types": {
+      "patterns": [
+        {
+          "name": "meta.type.collection.tacl",
+          "begin": "\\b(list|dict)\\s*(\\[)",
+          "beginCaptures": {
+            "1": {
+              "name": "support.type.collection.tacl"
+            },
+            "2": {
+              "name": "punctuation.definition.type-parameter.begin.tacl"
+            }
+          },
+          "end": "\\]",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.type-parameter.end.tacl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#type-expressions"
+            },
+            {
+              "name": "punctuation.separator.comma.tacl",
+              "match": ","
+            }
+          ]
+        }
+      ]
+    },
+    "optional-types": {
+      "patterns": [
+        {
+          "name": "meta.type.optional.tacl",
+          "begin": "\\b(optional)\\s*(\\[)",
+          "beginCaptures": {
+            "1": {
+              "name": "support.type.optional.tacl"
+            },
+            "2": {
+              "name": "punctuation.definition.type-parameter.begin.tacl"
+            }
+          },
+          "end": "\\]",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.type-parameter.end.tacl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#type-expressions"
+            }
+          ]
+        }
+      ]
+    },
+    "union-types": {
+      "patterns": [
+        {
+          "name": "meta.type.union.tacl",
+          "begin": "\\b(union)\\s*(\\[)",
+          "beginCaptures": {
+            "1": {
+              "name": "support.type.union.tacl"
+            },
+            "2": {
+              "name": "punctuation.definition.type-parameter.begin.tacl"
+            }
+          },
+          "end": "\\]",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.type-parameter.end.tacl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#type-expressions"
+            },
+            {
+              "name": "punctuation.separator.comma.tacl",
+              "match": ","
+            }
+          ]
+        }
+      ]
+    },
+    "literal-types": {
+      "patterns": [
+        {
+          "name": "meta.type.literal.tacl",
+          "begin": "\\b(literal)\\s*(\\[)",
+          "beginCaptures": {
+            "1": {
+              "name": "support.type.literal.tacl"
+            },
+            "2": {
+              "name": "punctuation.definition.type-parameter.begin.tacl"
+            }
+          },
+          "end": "\\]",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.type-parameter.end.tacl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#literal-values"
+            },
+            {
+              "name": "punctuation.separator.comma.tacl",
+              "match": ","
+            }
+          ]
+        }
+      ]
+    },
+    "custom-types": {
+      "patterns": [
+        {
+          "name": "support.type.custom.tacl",
+          "match": "\\b[A-Z]\\w*\\b"
+        }
+      ]
+    },
+    "values": {
+      "patterns": [
+        {
+          "include": "#multiline-strings"
+        },
+        {
+          "include": "#strings"
+        },
+        {
+          "include": "#references"
+        },
+        {
+          "include": "#numbers"
+        },
+        {
+          "include": "#booleans"
+        },
+        {
+          "include": "#null"
+        },
+        {
+          "include": "#arrays"
+        },
+        {
+          "include": "#objects"
+        },
+        {
+          "include": "#yaml-lists"
+        },
+        {
+          "include": "#object-members"
+        },
+        {
+          "include": "#comments"
+        }
+      ]
+    },
+    "object-members": {
+      "patterns": [
+        {
+          "begin": "^\\s*(\\w+)\\s*(:)\\s*",
+          "beginCaptures": {
+            "1": {
+              "name": "variable.other.property.tacl"
+            },
+            "2": {
+              "name": "punctuation.separator.key-value.tacl"
+            }
+          },
+          "end": "$",
+          "name": "meta.object-member.tacl",
+          "patterns": [
+            {
+              "include": "#values"
+            }
+          ]
+        }
+      ]
+    },
+    "multiline-strings": {
+      "patterns": [
+        {
+          "name": "string.unquoted.multiline.tacl",
+          "begin": "(\\|[-+]?|>[-+]?)\\s*$",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.operator.multiline.tacl"
+            }
+          },
+          "end": "^(?!\\s)",
+          "contentName": "string.unquoted.multiline.tacl"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.tacl",
+          "begin": "\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.tacl"
+            }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.tacl"
+            }
+          },
+          "patterns": [
+            {
+              "name": "constant.character.escape.tacl",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "references": {
+      "patterns": [
+        {
+          "name": "entity.name.tag.tacl",
+          "match": "&[a-zA-Z_][a-zA-Z0-9_.\\[\\]]*"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.tacl",
+          "match": "-?\\b\\d+\\.\\d+\\b"
+        },
+        {
+          "name": "constant.numeric.integer.tacl",
+          "match": "-?\\b\\d+\\b"
+        }
+      ]
+    },
+    "booleans": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.tacl",
+          "match": "\\b(true|false)\\b"
+        }
+      ]
+    },
+    "null": {
+      "patterns": [
+        {
+          "name": "constant.language.null.tacl",
+          "match": "\\bnull\\b"
+        }
+      ]
+    },
+    "arrays": {
+      "patterns": [
+        {
+          "name": "meta.array.tacl",
+          "begin": "\\[",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.array.begin.tacl"
+            }
+          },
+          "end": "\\]",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.array.end.tacl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#values"
+            },
+            {
+              "name": "punctuation.separator.comma.tacl",
+              "match": ","
+            }
+          ]
+        }
+      ]
+    },
+    "objects": {
+      "patterns": [
+        {
+          "name": "meta.object.tacl",
+          "begin": "\\{",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.dictionary.begin.tacl"
+            }
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.dictionary.end.tacl"
+            }
+          },
+          "patterns": [
+            {
+              "name": "meta.object-member.tacl",
+              "match": "(\\w+)\\s*(:)\\s*",
+              "captures": {
+                "1": {
+                  "name": "variable.other.property.tacl"
+                },
+                "2": {
+                  "name": "punctuation.separator.key-value.tacl"
+                }
+              }
+            },
+            {
+              "include": "#values"
+            },
+            {
+              "name": "punctuation.separator.comma.tacl",
+              "match": ","
+            }
+          ]
+        }
+      ]
+    },
+    "literal-values": {
+      "patterns": [
+        {
+          "include": "#strings"
+        },
+        {
+          "include": "#numbers"
+        },
+        {
+          "include": "#booleans"
+        }
+      ]
+    },
+    "yaml-lists": {
+      "patterns": [
+        {
+          "name": "meta.list-item.tacl",
+          "match": "^(\\s*)(-)\\s*(.*)$",
+          "captures": {
+            "2": {
+              "name": "punctuation.definition.list.begin.tacl"
+            },
+            "3": {
+              "patterns": [
+                {
+                  "include": "#strings"
+                },
+                {
+                  "include": "#references"
+                },
+                {
+                  "include": "#numbers"
+                },
+                {
+                  "include": "#booleans"
+                },
+                {
+                  "include": "#null"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "scopeName": "source.tacl"
+}
